@@ -71,18 +71,18 @@ static int rmw_zenoh_node_liveliness_keyexpr(picoros_node_t* node, char* keyexpr
 }
 
 static int rmw_zenoh_topic_keyexpr(picoros_node_t* node, rmw_topic_t* topic, char* keyexpr) {
-    return snprintf(keyexpr, KEYEXPR_SIZE, "%" PRIu32 "/%s/%s_/RIHS01_%s", node->domain_id, topic->name, topic->type,
-                    topic->rihs_hash);
+    return snprintf(keyexpr, KEYEXPR_SIZE, "%" PRIu32 "/%s/%s_/TypeHashNotSupported",
+                    node->domain_id, topic->name, topic->type);
 }
 
 static int rmw_zenoh_service_keyexpr(picoros_node_t* node, rmw_topic_t* topic, char* keyexpr) {
     if (node->name == NULL){
-        return snprintf(keyexpr, KEYEXPR_SIZE, "%" PRIu32 "/%s/%s_/RIHS01_%s", node->domain_id, topic->name,
-                            topic->type, topic->rihs_hash);
+        return snprintf(keyexpr, KEYEXPR_SIZE, "%" PRIu32 "/%s/%s_/TypeHashNotSupported",
+                        node->domain_id, topic->name, topic->type);
     }
     else{
-        return snprintf(keyexpr, KEYEXPR_SIZE, "%" PRIu32 "/%s/%s/%s_/RIHS01_%s", node->domain_id, node->name, topic->name,
-                            topic->type, topic->rihs_hash);
+        return snprintf(keyexpr, KEYEXPR_SIZE, "%" PRIu32 "/%s/%s/%s_/TypeHashNotSupported",
+                        node->domain_id, node->name, topic->name, topic->type);
     }
 }
 
@@ -121,7 +121,7 @@ static int rmw_zenoh_topic_liveliness_keyexpr(picoros_node_t* node, rmw_topic_t*
 #else
             "0/11/%s/%%/%%/%s/%%%s/"
 #endif
-            "%s_/RIHS01_%s"
+            "%s_/TypeHashNotSupported"
             "/::,:,:,:,,",
             node->domain_id,
             id.id[0], id.id[1],  id.id[2], id.id[3], id.id[4], id.id[5], id.id[6],
@@ -134,7 +134,7 @@ static int rmw_zenoh_topic_liveliness_keyexpr(picoros_node_t* node, rmw_topic_t*
             guid[12], guid[13], guid[14], guid[15],
 #endif
             entity_str, node->name,
-            topic_lv, topic->type, topic->rihs_hash
+            topic_lv, topic->type
                );
 
    return ret;
